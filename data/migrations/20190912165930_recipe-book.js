@@ -4,43 +4,85 @@ exports.up = function(knex) {
   return knex.schema
     .createTable('recipes', tbl => {
 
-      //auto increments PK
-    tbl.increments(); 
+        tbl
+            // auto increments PK
+            .increments(); 
 
-    //assign name of the individual recipe
-    tbl.string('recipe_name').notNullable(); 
-  })
+        tbl
+            //Name of the individual recipe
+            .string('recipe_name', 50)
+            .notNullable(); 
+    })
 
-  //creates table for ingredients
+    //creates table for ingredients
     .createTable('ingredients', tbl => {
-    //auto increments PK
-    tbl.increments();
-    //because we don't want the same ingredient's name in our ingredients table.
-    tbl.string('ingredient_name', 255)
-        .unique()
-        .notNullable(); 
-  })
-  //creates table for recipe_ingredients
+
+        tbl
+            //auto increments PK
+            .increments();
+        tbl
+            //because we don't want the same ingredient's name in our ingredients table
+            .string('ingredient_name', 255)
+            .unique()
+            .notNullable()
+    })
+
+    //creates table for recipe_ingredients
     .createTable('recipe_ingredients', tbl => {
 
-        tbl.increments();
-
-        tbl.string('recipe_ingredients', 255)
-        .notNullable();
-        
         //Foreing Key column
-        tbl.integer('ingredient_id') 
+        tbl
+            .integer('recipe_id', 255)
             .unsigned()
-            .notNullable()
             .references('id')
-            .inTable('recipes');
-  })
-  //creates table for instructions
+            .inTable('recipes')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE')
+            
+         tbl
+            .integer('ingredient_id') 
+            .unsigned()
+            .references('id')
+            .inTable('ingredients')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE')
+
+        tbl
+            .integer('quantity', 255)
+            .notNullable();
+        })
+        
+    //creates table for instructions
     .createTable('instructions', tbl => {
 
-  })
+        tbl
+            .increments();
+
+            //Foreign Key
+        tbl
+            integer('recipe_id')
+            .unsigned()
+            .references('id')
+            .inTable('recipes')
+            .onDelete('CASCADE')
+            .onUpdate('CASCADE')
+
+        tbl
+            .integer('steps_number')
+            .unsigned()
+
+        tbl
+            .string('instructions', 2000)
+
+        tbl.primary(['recipes', 'step_number'])
+            
+    })
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema
+    .dropTableIfExists('instructions')
+    .dropTableIfExists('recipe_ingredients')
+    .dropTableIfExists('ingredients')
+    .dropTableIfExists('recipes')
 };
