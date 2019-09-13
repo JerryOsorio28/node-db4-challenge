@@ -7,8 +7,8 @@ exports.seed = function(knex) {
       return knex('recipes').insert([
         { recipe_name: 'Grilled Burger'},
         { recipe_name: 'Tacos'},
-        { recipe_name: 'Rice & Beans'},
-        { recipe_name: 'Coffee'}
+        { recipe_name: 'White Rice'},
+        { recipe_name: 'Black Coffee'}
       ]);
     });
 };

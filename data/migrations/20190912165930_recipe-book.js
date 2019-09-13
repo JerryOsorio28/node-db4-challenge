@@ -55,12 +55,9 @@ exports.up = function(knex) {
     //creates table for instructions
     .createTable('instructions', tbl => {
 
-        tbl
-            .increments();
-
             //Foreign Key
         tbl
-            integer('recipe_id')
+            .integer('recipe_id')
             .unsigned()
             .references('id')
             .inTable('recipes')
@@ -68,13 +65,13 @@ exports.up = function(knex) {
             .onUpdate('CASCADE')
 
         tbl
-            .integer('steps_number')
+            .integer('step_number')
             .unsigned()
 
         tbl
             .string('instructions', 2000)
 
-        tbl.primary(['recipes', 'step_number'])
+        tbl.primary(['recipe_id', 'step_number'])
             
     })
 };
