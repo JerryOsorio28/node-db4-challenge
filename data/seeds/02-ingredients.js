@@ -1,13 +1,13 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('ingredients').del()
+  return knex('ingredients').truncate()
     .then(function () {
       // Inserts seed entries
       return knex('ingredients').insert([
         { ingredient_name: 'Buns'},
         { ingredient_name: 'Lettuce'},
-        { ingredient_name: 'Lettuce'},
+        { ingredient_name: 'Tomato'},
         { ingredient_name: 'Grilled Chicken'},
         { ingredient_name: 'American Cheese'},
         { ingredient_name: 'Secret Sauce'},

@@ -22,7 +22,7 @@ exports.up = function(knex) {
             .increments();
         tbl
             //because we don't want the same ingredient's name in our ingredients table
-            .string('ingredient_name', 255)
+            .string('ingredient_name', 50)
             .unique()
             .notNullable()
     })
@@ -70,9 +70,9 @@ exports.up = function(knex) {
 
         tbl
             .string('instructions', 2000)
+            .notNullable();
 
         tbl.primary(['recipe_id', 'step_number'])
-            
     })
 };
 
